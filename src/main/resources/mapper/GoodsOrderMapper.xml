@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.GoodsOrderMapper" >
+
+    <select id="getGoodsOrderByUuid" resultType="java.util.Map">
+        select o.id, o.amount, o.pay_type payType, o.goods_tcc goodsTcc, o.goods_money goodsMoney,
+                o.delivery_type deliveryType, o.delivery_money deliveryMoney, o.address_id address_id, o.status, o.create_time createTime,
+                o.pay_time payTime, o.delivery_time deliveryTime, o.finish_time finishTime,o.total_tcc totalTcc,o.total_cny totalCny, g.name, g.image
+        from t_teachain_goods_order o
+        inner join t_teachain_goods g on o.goods_id = g.id
+        where uuid = #{uuid}
+        order by id desc
+    </select>
+
+    <insert id="addGoodsOrder" parameterType="java.util.Map">
+        insert into t_teachain_goods_order (
+            uuid, goods_id, amount, pay_type, goods_tcc, goods_money, delivery_type, delivery_money, address_id, total_tcc, total_cny
+        ) values (
+            #{uuid},
+            #{goods_id},
+            #{amount},
+            #{pay_type},
+            #{goods_tcc},
+            #{goods_money},
+            #{delivery_type},
+            #{delivery_money},
+            #{address_id},
+            #{total_tcc},
+            #{total_cny}
+        )
+    </insert>
+
+    <select id="getGoodsById" resultType="com.youzi.teaChain.bean.TTeachainGoods">
+        select *
+        from t_teachain_goods
+        where id = #{id}
+    </select>
+
+    <select id="getGoodsInfo" resultType="com.youzi.teaChain.bean.TTeachainGoods">
+        select *
+        from t_teachain_goods
+        where type = #{type}
+        order by sort, createTime desc
+    </select>
+
+    <update id="reduceStock">
+        update t_teachain_goods
+        set stock = stock - #{amount}
+        where id=#{id}
+    </update>
+
+    <select id="updateStock" resultType="java.lang.Integer" statementType="CALLABLE">
+        CALL updateStock(#{id}, #{amount},#{type})
+    </select>
+
+</mapper>

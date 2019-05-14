@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+    <script type="text/javascript" src="../js/common/jquery-3.3.1.min.js"></script>
+</head>
+<script language="JavaScript">
+    localStorage.removeItem("id");
+    localStorage.removeItem("nickName");
+    localStorage.removeItem("phone");
+    localStorage.removeItem("level");
+    localStorage.removeItem("icon");
+
+    $(function () {
+        $('#sure').click(function () {
+            $('#alt').html("");
+            var name = $('#name').val();
+            var pwd = $('#password').val();
+            $.ajax({
+                url: "/index/login",
+                type: "post",
+                data: {
+                    name: name,
+                    password: pwd
+                },
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    if (res.code === 200) {
+                        window.location = "../index.html";
+                    } else {
+                        $('#alt').html(res.msg);
+                    }
+                },
+                error: function () {
+                    alert("请求超时，请刷新后重试！");
+                }
+            })
+        })
+    });
+</script>
+<body>
+<div id="login">
+    <h1>Login</h1>
+    <form action="/index/login" method="post" id="myform" method="post">
+        <input id="name" name="name" class="inputClass" type="text" required="required" placeholder="用户名"/>
+        <input id="password" name="password" class="inputClass" type="password" required="required" placeholder="密码"/>
+        <p id="alt" style="color: red;margin: 0 0 1ex 0;"></p>
+        <button id="sure" class="but" type="button">登录</button>
+    </form>
+</div>
+</body>
+
+</html>

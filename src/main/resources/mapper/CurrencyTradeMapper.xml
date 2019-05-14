@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.CurrencyTradeMapper" >
+
+    <select id="getTradeOrderById" resultType="com.youzi.teaChain.bean.TTeachainOrdersTrade">
+        select *
+        from t_teachain_orders_trade
+        where id = #{id}
+    </select>
+
+    <select id="getTradeOrderByStatus" resultType="com.youzi.teaChain.bean.TTeachainOrdersTrade">
+        select *
+        from t_teachain_orders_trade
+        where type=#{type} and status = 0 and home_uuid != #{uuid}
+#         and id>=(select *
+#                  from t_teachain_orders_trade
+#                  where status=0
+#                  order by id DESC
+#                  limit 1000,1)
+        <if test="type == 1">
+            order by price DESC
+        </if>
+        <if test="type == 2">
+            order by price ASC
+        </if>
+        limit #{index},#{pageSize}
+    </select>
+
+    <select id="getTradeOrderByUuid" resultType="com.youzi.teaChain.bean.TTeachainOrdersTrade">
+        select *
+        from t_teachain_orders_trade
+        where (home_uuid=#{uuid} or away_uuid=#{uuid})and status = #{status}
+#         and id>=(select *
+#                  from t_teachain_orders_trade
+#                  where status=0
+#                  order by id DESC
+#                  limit 1000,1)
+        order by createTime DESC
+        limit #{index},#{pageSize}
+    </select>
+
+    <select id="getTradeOrderCountByStatus" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_orders_trade
+        where type=#{type} and status = 0 and home_uuid != #{uuid}
+    </select>
+
+    <select id="getTradeOrderCountByUuid" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_orders_trade
+        where (home_uuid=#{uuid} or away_uuid=#{uuid})and status = #{status}
+    </select>
+
+    <insert id="addTradeOrder">
+        insert into t_teachain_orders_trade (home_uuid,price,count,amount,brokerage1,brokerage2,status,type) values (#{homeUuid},#{price},#{count},#{amount},#{brokerage1},#{brokerage2},0,#{type})
+    </insert>
+
+    <update id="endTradeOrder">
+        update t_teachain_orders_trade
+        set away_uuid = #{uuid},
+            status = 1,
+            opLock = 0
+        where id = #{id}
+    </update>
+
+    <update id="stopTradeOrder">
+        update t_teachain_orders_trade
+        set status = 2
+        where id = #{orderId}
+    </update>
+
+    <update id="setTradeOrderLock">
+        update t_teachain_orders_trade
+        set opLock = #{lock}
+        where id = #{id}
+    </update>
+
+    <select id="getTradeOrderLock" resultType="java.lang.Integer">
+        select opLock
+        from t_teachain_orders_trade
+        where id = #{id}
+    </select>
+</mapper>

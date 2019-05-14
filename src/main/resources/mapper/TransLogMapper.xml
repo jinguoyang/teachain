@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.TransLogMapper" >
+
+    <select id="selectTransLogByUuid" resultType="java.util.Map">
+        select l.id, l.amount, l.rate, l.realCoin, l.type, l.createTime,
+        case when l.uuid = #{uuid} then 1
+              else 2 end isAim,
+        case when l.uuid = #{uuid} then l.aimUuid
+              else l.uuid end uuid,
+        case when l.uuid = #{uuid} then u2.nickName
+              else u1.nickName end nickName,
+        case when l.uuid = #{uuid} then u2.phone
+              else u1.phone end phone
+        from t_teachain_trans_log l
+        left join t_teachain_user u1 on l.uuid = u1.uuid
+        left join t_teachain_user u2 on l.aimUuid = u2.uuid
+        where l.uuid = #{uuid}
+        OR l.aimUuid = #{uuid}
+        order by l.createTime desc
+    </select>
+
+    <insert id="insertTransLog" parameterType="com.youzi.teaChain.bean.TTeachainTransLog">
+        insert into t_teachain_trans_log (
+            uuid, aimUuid, amount, rate, realCoin
+            <if test="type != null">
+                , type
+            </if>
+            <if test="warnTag != null">
+                , warnTag
+            </if>
+        ) values (
+            #{uuid},
+            #{aimUuid},
+            #{amount},
+            #{rate},
+            #{realCoin}
+            <if test="type != null">
+                , #{type}
+            </if>
+            <if test="warnTag != null">
+                , #{warnTag}
+            </if>
+        )
+    </insert>
+
+    <select id="selectWarningTrans" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_trans_log
+        where warnTag = 1 and aimUuid = #{aimUuid} and createTime > #{createTime}
+    </select>
+</mapper>

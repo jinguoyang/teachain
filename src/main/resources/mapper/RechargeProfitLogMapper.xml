@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.RechargeProfitLogMapper" >
+
+    <insert id="createRechargeProfitLog">
+        insert into t_teachain_recharge_profitlog (
+            uuid, superior, logId, amount, profitDiamond, profitCNY
+        ) values (
+            #{uuid},
+            #{superior},
+            #{logId},
+            #{amount},
+            #{profitDiamond},
+            #{profitCNY}
+        )
+    </insert>
+
+    <select id="getPersonProfitList" resultType="java.util.Map">
+        select u.uuid, u.icon, u.nickName, u.phone, l.amount, l.profitDiamond, l.profitCNY, l.createTime
+        from t_teachain_recharge_profitlog l
+        inner join t_teachain_user u on l.uuid = u.uuid
+        where l.superior = #{uuid}
+    </select>
+
+</mapper>

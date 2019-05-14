@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.ShareMapper" >
+
+    <select id="selectShareUserId" resultType="java.lang.Integer">
+        select
+        case when count(a.id) = 0 then 0
+              else a.id end
+        from (
+            select u.id
+            from t_teachain_share s
+            left join t_teachain_login l on l.openId = s.openId
+            left join t_teachain_user u on u.uuid = l.uuid
+            where s.childUnionId = #{unionId}
+            and s.openId != #{openId}
+            order by s.createTime desc
+        limit 1
+        ) a
+    </select>
+</mapper>

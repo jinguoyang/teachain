@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.WalletHistoryMapper" >
+
+    <delete id="delete2History">
+        delete from t_teachain_wallet_history
+        where type = 2;
+    </delete>
+
+    <update id="update2History">
+        update t_teachain_wallet_history
+        set type = 2
+        where type = 1;
+    </update>
+
+    <insert id="insertWH">
+        insert into t_teachain_wallet_history (
+          uuid, balance, type
+        )
+        select uuid, balance, 1
+		from t_teachain_wallet
+    </insert>
+</mapper>

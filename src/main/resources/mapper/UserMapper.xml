@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.UserMapper" >
+
+    <select id="getTUserByUuid"  resultType="com.youzi.teaChain.bean.TUser">
+        SELECT * FROM t_teachain_user WHERE uuid = #{uuid}
+    </select>
+
+    <select id="getIdByUuid"  resultType="java.lang.String">
+        SELECT id FROM t_teachain_user WHERE uuid = #{uuid}
+    </select>
+
+    <select id="getUuidById"  resultType="java.lang.String">
+        SELECT uuid FROM t_teachain_user WHERE id = #{id}
+    </select>
+
+    <select id="getTUserByName" parameterType="string" resultType="com.youzi.teaChain.bean.TUser">
+		select * from t_teachain_user where name = #{name}
+	</select>
+
+    <select id="getUserByName" parameterType="string" resultType="com.youzi.teaChain.bean.User">
+		select * from user where username = #{username}
+	</select>
+
+    <update id="setStatusByDeviceId">
+        update t_teachain_user
+        set status = #{status}
+        where deviceId = #{deviceId}
+    </update>
+
+    <update id="setAwardStateByUuid">
+        update t_teachain_user
+        set awardState = 1
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setHasPayPassword">
+        update t_teachain_user
+        set hasPayPassword = #{code}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setHasLoginPassword">
+        update t_teachain_user
+        set hasLoginPassword = #{code}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="checkUserName" resultType="java.lang.Integer">
+        select count(1)
+        from user
+        where username = #{phone}
+    </select>
+
+    <select id="checkIdCardNum" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_user
+        where idCardNum = #{idCardNum}
+    </select>
+
+    <select id="checkWechatNum" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_user
+        where wechatNum = #{wechatNum}
+    </select>
+
+    <insert id="insertTUserByWXUser" parameterType="java.util.Map">
+        insert into t_teachain_user (
+        uuid, nickName, sex, icon
+        ) values (
+        #{uuid},
+        #{nickName},
+        #{sex},
+        #{icon}
+        )
+    </insert>
+
+    <update id="updateWXInfo" parameterType="java.util.Map">
+        update t_teachain_user
+        set nickName = #{nickName},
+            icon = #{icon},
+            sex = #{sex}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setIdCard">
+        update t_teachain_user
+        set idCardNum = #{idCardNum} ,
+            idCardName = #{idCardName}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setWechatNum">
+        update t_teachain_user
+        set wechatNum = #{wechatNum}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="selectCalcUser" resultType="java.util.Map">
+        select id, uuid, calcPower, balance
+        from v_allConfigUser
+        where calcPower >= #{minCalcPower}
+        AND balance >= #{minTeaCoin}
+    </select>
+
+    <select id="getRankListByCalc" resultType="java.util.Map">
+        select phone,uuid,nickName,icon,calcPower+tempCalcPower as rankKey
+        from t_teachain_user
+        where nickName is not NULL
+        ORDER BY rankKey DESC
+        limit 50
+    </select>
+
+    <select id="getRankListByRecharge" resultType="java.util.Map">
+        select a.phone,a.uuid,a.nickName,a.icon,ifnull(sum(b.amount)/100,0) as rankKey
+        from t_teachain_user a left join t_teachain_recharge_log b
+                on a.uuid = b.uuid and status = 1
+        where nickName is not NULL
+        GROUP BY uuid
+        ORDER BY rankKey DESC
+        limit 50
+    </select>
+
+    <select id="getRankListByTCC" resultType="java.util.Map">
+        select b.phone, a.uuid, b.nickName, b.icon, ifnull(a.balance,0) rankKey
+        from t_teachain_wallet a left join t_teachain_user b on a.uuid = b.uuid
+        where b.nickName is not NULL
+        order by rankKey desc
+        limit 50
+    </select>
+
+    <select id="getCalcRelation" resultType="java.util.Map">
+        select phone,nickName,icon,accelerate
+        from t_teachain_power_up a left join t_teachain_user b on a.support = b.uuid
+        where a.uuid = #{uuid} and a.type = 1
+    </select>
+
+    <select id="selectTotalCalcPower" resultType="java.math.BigDecimal">
+        select sum(calcPower)
+        from t_teachain_user b
+        INNER JOIN t_teachain_login a on a.uuid = b.uuid and status in (0,1)
+        INNER JOIN t_teachain_wallet w on w.uuid = b.uuid and w.balance >= #{minTeaCoin}
+        where b.calcPower >= #{minCalcPower}
+    </select>
+
+    <update id="updateUserPhoneByUuid">
+        update t_teachain_user
+        set phone = #{phone}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="changeTotalMoney">
+        update t_teachain_user
+        set
+        <if test="type == 0">
+            totalMoney = totalMoney + #{count}
+        </if>
+        <if test="type == 1">
+            totalMoney = totalMoney - #{count}
+        </if>
+        where uuid = #{uuid}
+    </update>
+
+    <update id="updateCalcPower">
+        update t_teachain_user
+        set
+        <if test="temp == 0">
+            <if test="type == 0">
+                calcPower = calcPower + #{count}
+            </if>
+            <if test="type == 1">
+                calcPower = calcPower - #{count}
+            </if>
+        </if>
+        <if test="temp == 1">
+            <if test="type == 0">
+                tempCalcPower = tempCalcPower + #{count}
+            </if>
+            <if test="type == 1">
+                tempCalcPower = tempCalcPower - #{count}
+            </if>
+        </if>
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setTradeLicense">
+        update t_teachain_user
+        set tradeLicense = 1
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setSuperior">
+        update t_teachain_user
+        set superior = #{superior}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setHasFirstTCC">
+        update t_teachain_user
+        set  hasFirstTCC = #{hasFirstTCC}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="getInviterCount" resultType="java.lang.Integer">
+        select count(1) counts
+        from t_teachain_user u
+        where u.hasFirstTCC = 2
+        and u.superior = #{id}
+    </select>
+
+    <update id="setDiamond">
+        update t_teachain_user
+        set diamond = diamond + #{diamond}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setVipAndDay">
+        update t_teachain_user
+        set vipLevel = #{vipLevel},
+            vipValidDay = #{vipValidDay}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="updateDiamondFunc" resultType="java.lang.Integer" statementType="CALLABLE">
+        CALL updateDiamond(#{uuid}, #{diamond}, #{type})
+    </select>
+
+    <select id="updateCNYFunc" resultType="java.lang.Integer" statementType="CALLABLE">
+        CALL updateCNY(#{uuid}, #{cny}, #{type})
+    </select>
+
+    <select id="getLowerRelation" resultType="java.util.Map">
+        select u2.uuid, u2.nickName, u2.phone, u2.icon, u2.hasFirstTcc, l.lastFreshTime
+        from t_teachain_user u
+        inner join t_teachain_user u2 on u.id = u2.superior
+        left join t_teachain_login l on l.uuid = u2.uuid
+        where u.uuid = #{uuid}
+        <if test="type == 0">
+            AND u2.hasFirstTcc = 2
+        </if>
+        <if test="type == 1">
+            AND u2.hasFirstTcc != 2
+        </if>
+        order by l.lastFreshTime desc
+    </select>
+</mapper>

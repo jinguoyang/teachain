@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.ConfigMapper" >
+
+    <select id="selectCalcPowerToday" resultType="java.util.Map">
+        select *
+        from t_teachain_config
+        where keyName in ("calcPowerTime1", "calcPowerTime2", "calcPowerTime3", "todayPersonTeaCoin")
+        order by keyname
+    </select>
+
+    <select id="selectTeaCoinToday" resultType="java.util.Map">
+        select *
+        from t_teachain_config
+        where keyName = "todayTotalTeaCoin"
+    </select>
+
+    <select id="selectAllNumberConfig" resultType="java.util.Map">
+        select *
+        from t_teachain_config
+        where keyName not in ("customerServicesWX")
+    </select>
+
+    <select id="selectConfig" resultType="java.lang.String">
+        select keyValue
+        from t_teachain_config
+        where keyName = #{keyName}
+    </select>
+
+    <update id="addProvidePeriod">
+        update t_teachain_config
+        set keyValue = keyValue + 1
+        where keyName = "providePeriod"
+    </update>
+</mapper>

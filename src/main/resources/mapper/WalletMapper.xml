@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.WalletMapper" >
+
+    <select id="getWalletByUuid" resultType="com.youzi.teaChain.bean.Wallet">
+        select * from t_teachain_wallet where uuid = #{uuid}
+    </select>
+
+    <insert id="insertWalletByWXUser" parameterType="java.util.Map">
+        insert into t_teachain_wallet (
+            uuid, balance, coin_address
+        ) values (
+            #{uuid},
+            0,
+            #{coin_address}
+        )
+    </insert>
+
+    <update id="updateBalanceByUser">
+        update t_teachain_wallet
+        set
+        <if test="type == 0">
+            balance = balance + #{coin}
+        </if>
+        <if test="type == 1">
+            balance = balance - #{coin}
+        </if>
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setPasswordByUuid">
+        update t_teachain_wallet
+        set pay_password = #{password}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="getBalanceByUuid" resultType="java.math.BigDecimal">
+        select balance
+        from t_teachain_wallet
+        where uuid = #{uuid}
+    </select>
+
+    <select id="selectUserByAddressPhone" resultType="java.lang.String">
+        select u.uuid
+        from t_teachain_user u
+        left join t_teachain_wallet w on u.uuid = w.uuid
+        where w.coin_address = #{address}
+        AND u.phone = #{phone}
+    </select>
+
+    <update id="updateRollBack">
+        update t_teachain_wallet
+        set balance = #{balance}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setTransLock">
+        update t_teachain_wallet
+        set trans_lock = #{transLock}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="todaySunExtendYunCoin" statementType="CALLABLE">
+        CALL sunExtendYunCoin(#{type})
+    </select>
+
+    <select id="updateWalletBalanceFunc" resultType="java.lang.Integer" statementType="CALLABLE">
+        CALL updateWalletBalance(#{uuid}, #{balance}, #{type})
+    </select>
+</mapper>

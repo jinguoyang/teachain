@@ -1,0 +1,129 @@
+html,body {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+p {
+    margin: 0;
+}
+
+.sunShine {
+    background-image: url('../image/首页/图层 4.png');
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: fixed;
+    top: -10%;
+    left: 0;
+}
+
+.bg1 {
+    background-image: url('../image/首页/图层 5.png');
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.cloud1 {
+    margin: 0;
+    background: none;
+    z-index: 0;
+    position: fixed;
+    top: 10%;
+    left: 0;
+}
+.cloud2 {
+    margin: 0;
+    background: none;
+    z-index: 0;
+    position: fixed;
+    top: 5%;
+    left: 0;
+}
+.cloud3 {
+    margin: 0;
+    background: none;
+    z-index: 0;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+}
+
+.treeLevel {
+    background-image: url('../image/首页/圆角矩形 2 拷贝.png');
+    background-repeat: no-repeat;
+    width: 22ex;
+    height: 3.5ex;
+    left: 5%;
+    top: 10%;
+    position: fixed;
+}
+.watering {
+    background-image: url('../image/首页/圆角矩形 2 拷贝.png');
+    background-repeat: no-repeat;
+    width: 22ex;
+    height: 3.5ex;
+    left: 5%;
+    top: 15%;
+    position: fixed;
+}
+
+.balloon {
+    width: 100%;
+    height: 20%;
+    top: 25%;
+    left: 6%;
+    z-index: 1;
+    position: fixed;
+}
+.tree {
+    background-image: url('../image/首页/矢量智能对象5.png');
+    background-size: 87% 50%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    top: 25%;
+    left: 12%;
+    z-index: 1;
+    position: fixed;
+}
+#watering {
+    top: 30%;
+    right: 5%;
+    z-index: 99;
+    position: fixed;
+}
+#sel {
+    z-index: 99;
+}
+
+/* 黑幕 */
+.blackBackground {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: .8;
+    z-index: 98;
+}
+.firstChangeTree {
+    display: none;
+    position: absolute;
+    top: 35%;
+    left: 20%;
+    width: 60%;
+    height: 30%;
+    background-color: #fff0b8;
+    z-index: 99;
+    border-radius: 5px;
+}

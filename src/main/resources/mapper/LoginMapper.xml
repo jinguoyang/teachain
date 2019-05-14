@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.LoginMapper" >
+
+    <select id="getLoginInfoByUuid"  resultType="com.youzi.teaChain.bean.TTeachainLogin">
+        SELECT * FROM t_teachain_login WHERE uuid = #{uuid}
+    </select>
+
+    <select id="getLoginByPhone"  resultType="com.youzi.teaChain.bean.TTeachainLogin">
+        SELECT * FROM t_teachain_login WHERE phone = #{phone}
+    </select>
+
+    <select id="countDeviceId" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_login
+        where deviceId = #{deviceId}
+    </select>
+
+    <update id="setOtherDeviceIdByOpenId">
+        update t_teachain_login
+        set deviceId = null
+        where openId != #{openId}
+              and deviceId = #{deviceId}
+    </update>
+
+    <update id="setPasswordByUuid">
+        update t_teachain_login
+        set password = #{password}
+        where uuid = #{uuid}
+    </update>
+
+    <update id="setStatusByUuid">
+        update t_teachain_login
+        set status = #{status}
+        where uuid = #{uuid}
+    </update>
+
+    <select id="getLoginByDeviceId" resultType="com.youzi.teaChain.bean.TTeachainLogin">
+        select *
+        from t_teachain_login
+        where deviceId = #{deviceId}
+        #         and status = 0
+    </select>
+
+    <select id="checkDeviceIdByOpenId" resultType="java.lang.Boolean">
+        select count(1)
+        from t_teachain_login
+        where deviceId = #{deviceId}
+              and openId = #{openId}
+              and loginIp = #{ip}
+    </select>
+
+    <select id="checkDeviceIdByPhone" resultType="java.lang.Boolean">
+        select count(1)
+        from t_teachain_login
+        where deviceId = #{deviceId}
+              and phone = #{phone}
+              and loginIp = #{ip}
+    </select>
+
+    <select id="checkLoginByOpenId" resultType="com.youzi.teaChain.bean.TTeachainLogin">
+        select *
+        from t_teachain_login
+        where openId = #{openId}
+        #         and status = 0
+    </select>
+
+    <select id="checkPhone" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_login
+        where phone = #{phone}
+    </select>
+
+    <insert id="insertTTeachainLogin" parameterType="java.util.Map">
+        insert into t_teachain_login (uuid, openId, deviceId, unionId,loginIp,signIp) values (#{uuid},#{openId},#{deviceId},#{unionId},#{ip},#{ip})
+    </insert>
+
+    <update id="setDeviceIdAndIpByOpenId">
+        update t_teachain_login
+        set deviceId = #{deviceId} , loginIp = #{ip}
+        where openId = #{openId}
+    </update>
+
+    <update id="setDeviceIdAndIpByPhone">
+        update t_teachain_login
+        set deviceId = #{deviceId} , loginIp = #{ip}
+        where phone = #{phone}
+    </update>
+
+    <update id="setStatusByDeviceId">
+        update t_teachain_login
+        set status = #{status}
+        <if test="status==0">
+            where deviceId = #{deviceId} and status = 1
+        </if>
+        <if test="status==1">
+            where deviceId = #{deviceId} and status = 0
+        </if>
+    </update>
+
+    <update id="setUnionIdByOpenId">
+        update t_teachain_login
+        set unionId = #{unionId}
+        where openId = #{openId}
+    </update>
+
+    <update id="updateLoginPhoneByUuid">
+        update t_teachain_login
+        set phone = #{phone}
+        where uuid = #{uuid}
+    </update>
+
+</mapper>

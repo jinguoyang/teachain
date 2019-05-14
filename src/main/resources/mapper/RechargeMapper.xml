@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.RechargeMapper" >
+    <insert id="createRechargeLog" useGeneratedKeys="true" keyProperty="id">
+        insert into t_teachain_recharge_log (
+            uuid, transNo, tradeNo, amount, status, bank_type, time_end
+        ) values (
+            #{uuid},
+            #{transNo},
+            #{tradeNo},
+            #{amount},
+            #{status},
+            #{bankType},
+            #{timeEnd}
+        )
+    </insert>
+
+    <select id="getRechargeOrder" resultType="com.youzi.teaChain.bean.TTeachainRechargeLog">
+        select id, uuid, transNo, tradeNo, amount, status, bank_type, time_end, createTime
+        from t_teachain_recharge_log
+        where uuid= #{uuid}
+    </select>
+
+    <select id="checkTradeNo" resultType="java.lang.Integer">
+        select count(1)
+        from t_teachain_recharge_log
+        where tradeNo = #{tradeNo}
+    </select>
+</mapper>

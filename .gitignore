@@ -2,11 +2,15 @@
 #*.gitignore
 *.gz
 *.log
-
+.classpath
+.project
 
 /.idea
 /.git
 /.settings
 /.log
+/target
+/META-INF
+/out
 /target
 /src/main/resources/application.properties.back

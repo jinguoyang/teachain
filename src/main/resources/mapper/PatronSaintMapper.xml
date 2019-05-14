@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.PatronSaintMapper" >
+
+    <insert id="insertUser" parameterType="java.util.Map">
+        insert into t_teachain_patronsaint_user (
+          uuid, golden, tea, genTea, genTeaMultiple, allLevel, maxLevel
+        ) values (
+          #{uuid},
+          #{golden},
+          #{tea},
+          #{genTea},
+          #{genTeaMultiple},
+          #{allLevel},
+          #{maxLevel}
+        )
+    </insert>
+
+    <update id="updateUserByParam" parameterType="java.util.Map">
+        update t_teachain_patronsaint_user
+        set uuid = #{uuid}
+        <if test="golden != null">
+            , golden = #{golden}
+        </if>
+        <if test="tea != null">
+            , tea = #{tea}
+        </if>
+        <if test="genTea != null">
+            , genTea = #{genTea}
+        </if>
+        <if test="genTeaMultiple != null">
+            , genTeaMultiple = #{genTeaMultiple}
+        </if>
+        <if test="allLevel != null">
+            , allLevel = #{allLevel}
+        </if>
+        <if test="maxLevel != null">
+            , maxLevel = #{maxLevel}
+        </if>
+        <if test="sun != null and date != null">
+            , todaySun = #{sun}
+            , putDay = #{date}
+        </if>
+        <if test="sun != null and date == null">
+            , todaySun = todaySun + #{sun}
+        </if>
+        where uuid = #{uuid}
+    </update>
+
+    <select id="getRankByUuid" resultType="java.lang.Integer">
+        select a.rownum
+        from (
+            select @i:=@i+1 rownum, u.uuid
+            from t_teachain_patronsaint_user u,
+            (select @i:=0) t
+            order by u.maxLevel DESC
+            limit 50
+        ) a
+        where a.uuid = #{uuid}
+    </select>
+
+    <select id="getRankList" resultType="java.util.Map">
+        select u2.icon, u2.nickName, u2.phone, u.maxLevel, u.allLevel, u.golden
+        from t_teachain_patronsaint_user u
+        inner join t_teachain_user u2 on u.uuid = u2.uuid
+        order by maxLevel DESC,golden DESC
+        limit 50
+    </select>
+
+    <select id="getPatronSaintUserByUuid" resultType="java.util.Map">
+        select uuid,golden,tea,genTea,genTeaMultiple,allLevel,maxLevel,createTime,todaySun,putDay
+        from t_teachain_patronsaint_user
+        where uuid = #{uuid};
+    </select>
+
+</mapper>

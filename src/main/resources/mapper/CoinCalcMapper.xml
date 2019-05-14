@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.youzi.teaChain.dao.CoinCalcMapper" >
+
+    <select id="selectCoinCalc" resultType="com.youzi.teaChain.bean.TTeachainCoinCalc">
+        select *
+        from t_teachain_coin_calc
+        where uuid = #{uuid}
+    </select>
+
+    <insert id="insertCoinCalcByUser">
+        insert into t_teachain_coin_calc (
+          uuid
+        ) values (
+          #{uuid}
+        )
+    </insert>
+
+    <update id="updateTCC" parameterType="com.youzi.teaChain.bean.TTeachainCoinCalc">
+        update t_teachain_coin_calc
+        set uuid = #{uuid}
+        <if test="teaCoin1 != null">
+            , teaCoin1 = #{teaCoin1}
+        </if>
+        <if test="teaCoin2 != null">
+            , teaCoin2 = #{teaCoin2}
+        </if>
+        <if test="teaCoin3 != null">
+            , teaCoin3 = #{teaCoin3}
+        </if>
+        <if test="teaCoin4 != null">
+            , teaCoin4 = #{teaCoin4}
+        </if>
+        <if test="teaCoin5 != null">
+            , teaCoin5 = #{teaCoin5}
+        </if>
+        <if test="teaCoin6 != null">
+            , teaCoin6 = #{teaCoin6}
+        </if>
+        <if test="teaCoin7 != null">
+            , teaCoin7 = #{teaCoin7}
+        </if>
+        <if test="teaCoin8 != null">
+            , teaCoin8 = #{teaCoin8}
+        </if>
+        <if test="teaCoin9 != null">
+            , teaCoin9 = #{teaCoin9}
+        </if>
+        <if test="teaCoin10 != null">
+            , teaCoin10 = #{teaCoin10}
+        </if>
+        <if test="teaCoin11 != null">
+            , teaCoin11 = #{teaCoin11}
+        </if>
+        <if test="teaCoin12 != null">
+            , teaCoin12 = #{teaCoin12}
+        </if>
+        <if test="teaCoin13 != null">
+            , teaCoin13 = #{teaCoin13}
+        </if>
+        <if test="teaCoin14 != null">
+            , teaCoin14 = #{teaCoin14}
+        </if>
+        <if test="teaCoin15 != null">
+            , teaCoin15 = #{teaCoin15}
+        </if>
+        <if test="teaCoin16 != null">
+            , teaCoin16 = #{teaCoin16}
+        </if>
+        <if test="teaCoin17 != null">
+            , teaCoin17 = #{teaCoin17}
+        </if>
+        <if test="teaCoin18 != null">
+            , teaCoin18 = #{teaCoin18}
+        </if>
+        <if test="teaCoin19 != null">
+            , teaCoin19 = #{teaCoin19}
+        </if>
+        <if test="teaCoin20 != null">
+            , teaCoin20 = #{teaCoin20}
+        </if>
+        <if test="teaCoin21 != null">
+            , teaCoin21 = #{teaCoin21}
+        </if>
+        <if test="todayCoin != null">
+            , todayCoin = #{todayCoin}
+        </if>
+        <if test="endTime != null">
+            , endTime = #{endTime}
+        </if>
+        where uuid = #{uuid}
+    </update>
+</mapper>

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>种树得茶</title>
+
+    <link type="text/css" rel="stylesheet" href="../css/index.css" />
+    <script type="text/javascript" src="../js/common/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/common/common.js"></script>
+    <script type="text/javascript" src="../js/index.js"></script>
+</head>
+<style type="text/css">
+</style>
+<body>
+<div class="sunShine" style="display: none;"></div>
+<div class="bg1"></div>
+<div>
+    <!--云彩段-->
+    <div>
+        <marquee class="cloud1" direction=left behavior=scroll loop=-1 scrollamount=1 scrolldelay=0>
+            <img src="image/首页/矢量智能对象2.png" style="width: 45%;height: 8%;"/>
+        </marquee>
+        <marquee class="cloud2" direction=left behavior=scroll loop=-1 scrollamount=2 scrolldelay=10>
+            <img src="image/首页/矢量智能对象.png" style="width: 30%;height: 7%;"/>
+        </marquee>
+        <marquee class="cloud3" direction=left behavior=scroll loop=-1 scrollamount=2 scrolldelay=30>
+            <img src="image/首页/{141FEB10-0972-93B3-802B-DDAC6B654F9E}.png" style="width: 50%;height: 10%;"/>
+        </marquee>
+        <div class="treeLevel">
+            <p id="treeLevelId">树木等级：</p>
+        </div>
+        <div class="watering">
+            <p id="waterId">还需浇水 次提升等级</p>
+        </div>
+    </div>
+    <!--大树段-->
+    <div>
+        <marquee class="balloon" direction=up behavior=alternate scrollamount=1 scrolldelay=10 >
+            <img src="image/首页/矢量智能对象4.png" style="width: 15%;height: 7%;"/>
+        </marquee>
+        <div class="tree"></div>
+        <input id="watering" type="button" value="浇水" />
+        <button id="sel" type="button">登录</button>
+    </div>
+</div>
+
+<!-- 黑幕 -->
+<div id="black1" class="blackBackground"></div>
+<!-- 首次进入选树 -->
+<div class="firstChangeTree">
+    <h2>请选择一个茶树种类</h2>
+    <div style="display: -webkit-box">
+        <div>
+            <span>选绿茶图片</span>
+            <input id="greenTreeC" type="radio"/>
+        </div>
+        <div>
+            <span>选红茶图片</span>
+            <input id="redTreeC" type="radio"/>
+        </div>
+        <div>
+            <span>选花茶图片</span>
+            <input id="flowerTreeC" type="radio"/>
+        </div>
+        <div>
+            <span>选果茶图片</span>
+            <input id="fruitTreeC" type="radio"/>
+        </div>
+    </div>
+</div>
+</body>
+</HTML>
