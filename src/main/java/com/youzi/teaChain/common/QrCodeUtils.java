@@ -10,6 +10,8 @@ import com.google.zxing.common.BitMatrix;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Hashtable;
 
 public class QrCodeUtils {
@@ -29,13 +31,9 @@ public class QrCodeUtils {
             if(!dir.exists()){
                 dir.mkdirs();
             }
-            File outputFile = new File(path + "/" + name + ".jpg");
-            MatrixToImageWriter.writeToFile(bitMatrix, "jpg", outputFile);
-        } catch (WriterException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
+            Path outputFilePath = Paths.get(path + "/" + name + ".jpg");
+            MatrixToImageWriter.writeToPath(bitMatrix, "jpg", outputFilePath);
+        } catch (WriterException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return null;

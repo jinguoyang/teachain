@@ -1,6 +1,5 @@
 package com.youzi.teaChain;
 
-import com.youzi.teaChain.service.ConfigService;
 import com.youzi.teaChain.service.TimeScheduledService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.context.ApplicationContext;
-
-import java.util.List;
 
 @SpringBootApplication
 public class TeaChainApp implements EmbeddedServletContainerCustomizer

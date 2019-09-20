@@ -1,20 +1,6 @@
 package com.youzi;
 
-import com.alibaba.fastjson.JSON;
-import com.youzi.teaChain.bean.User;
 import com.youzi.teaChain.common.SHA;
-import com.youzi.teaChain.service.RedisClient;
-import com.youzi.teaChain.service.UserService;
-import net.sf.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import redis.clients.jedis.Jedis;
-
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class test {
 

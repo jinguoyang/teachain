@@ -2,7 +2,6 @@ package com.youzi.teaChain.ctrl;
 
 import com.alibaba.fastjson.JSON;
 import com.youzi.teaChain.bean.TTeachainLogin;
-import com.youzi.teaChain.bean.TTeachainPatronsaintUser;
 import com.youzi.teaChain.bean.TUser;
 import com.youzi.teaChain.bean.Wallet;
 import com.youzi.teaChain.service.*;

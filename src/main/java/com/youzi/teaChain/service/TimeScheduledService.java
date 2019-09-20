@@ -1,7 +1,6 @@
 package com.youzi.teaChain.service;
 
 import com.youzi.teaChain.bean.TTeachainCoinCalc;
-import com.youzi.teaChain.common.StringUtil;
 import com.youzi.teaChain.dao.ConfigMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
